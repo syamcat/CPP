@@ -9,29 +9,32 @@ CXXFLAGS = -Wall -Werror -Wextra
 MAIN = main.cpp
 SRCS = $(wildcard srcs/*.cpp)
 INCS = $(wildcard incs/*.hpp)
-# OBJS = $(MAIN:%.cpp=%.o) $(SRCS:%.cpp=%.o)
+OBJS = $(MAIN:%.cpp=%.o) $(SRCS:%.cpp=%.o)
 
 ### color define ###
-GREEN		=	\033[0;32m
-RED			=	\033[0;31m
+GREEN		=	\033[32m
+RED			=	\033[31m
+YELLOW		=	\033[33m
 RESET		=	\033[0m
 
 all	: $(NAME)
 
-# %.o	:%.c
-# 	$(CXX) $(CXXFLAGS) -c $< -o $@
+%.o	:%.c
+	$(CXX) $(CXXFLAGS) -c $< -o $@
 
 $(NAME): $(OBJS)
-#	$(CXX) $(CXXFLAGS) $(OBJS) -I $(INCS) -o $(NAME)
+	@$(CXX) $(CXXFLAGS) $(OBJS) -I $(INCS) -o $(NAME)
 	@$(CXX) $(CXXFLAGS) $(MAIN) $(SRCS) -I $(INCS) -o $(NAME)
 	@echo "make: $(GREEN)$(NAME) was created$(RESET)"
 
-# clean	:
-# 	rm -rf $(OBJS)
+clean	:
+	@rm -rf $(OBJS)
+	@echo "make: $(YELLOW)$(NAME) was fully cleaned up$(RESET)"
 
-fclean	: clean
+fclean	:
+	@rm -rf $(OBJS)
 	@rm -rf	$(NAME)
-	@echo "make: $(RED)$(NAME) was cleaned up$(RESET)"
+	@echo "make: $(RED)$(NAME) was fully cleaned up$(RESET)"
 
 re:	fclean
 	make all
